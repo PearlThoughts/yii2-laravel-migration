@@ -11,6 +11,12 @@
 
 ### Step 3
   - Database import or run the migration
+  - Laravel migration
+  
+    `docker exec -it yii2-laravel-laravel php artisan migrate`
+  - Yii
+  
+    `docker exec -it yii2-laravel-yii php console/yii migrate`
   
 #### link:
 
