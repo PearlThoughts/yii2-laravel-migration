@@ -1,0 +1,76 @@
+version: '3.8'
+services:
+  nginx:
+    image: nginx
+    container_name: yii2-laravel-nginx
+    working_dir: /var/www
+    volumes:
+      - ./docker/nginx/conf.d:/etc/nginx/conf.d:cached
+      - ./yii2:/var/www/yii2:delegated
+      - ./laravel:/var/www/laravel:delegated
+    networks:
+      - yii2-laravel
+    ports:
+      - 2400:2400
+      - 2401:2401
+    links:
+      - laravel:laravel
+      - yii2:yii2
+  laravel:
+    image: pearl:php7.4-fpm
+    container_name: yii2-laravel-laravel
+    working_dir: /var/www/laravel
+    volumes:
+      - ./laravel:/var/www/laravel:delegated
+    networks:
+      - yii2-laravel
+    links:
+      - redis:redis
+      - db:db
+    environment:
+      - "DB_PORT=3306"
+      - "DB_HOST=db"
+  yii2:
+    image: pearl:php7.4-fpm
+    container_name: yii2-laravel-yii2
+    working_dir: /var/www/yii2
+    volumes:
+      - ./yii2:/var/www/yii2:delegated
+    networks:
+      - yii2-laravel
+    links:
+      - redis:redis
+      - db:db
+    env_file:
+      - ./yii2/.env
+  db:
+    image: mysql:8
+    container_name: yii2-laravel-db
+    volumes:
+      - ./dbdata:/var/lib/mysql:delegated
+    networks:
+      - yii2-laravel
+    environment:
+      - "MYSQL_ROOT_PASSWORD=test123"
+      - "MYSQL_DATABASE=yii2-laravel"
+    ports:
+        - "33091:3306"
+  adminer:
+    image: adminer
+    container_name: yii2-laravel-adminer
+    networks:
+      - yii2-laravel
+    ports:
+      - 9013:8080
+    links:
+      - db
+  redis:
+    image: redis
+    container_name: yii2-laravel-redis
+    networks:
+      - yii2-laravel
+    ports:
+      - "64000:6379"
+networks:
+  yii2-laravel:
+    driver: bridge
