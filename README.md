@@ -10,12 +10,11 @@
   - build the docker service
 
 ### Step 3
-  - Database import or run the migration
-  - Laravel migration
-  
+  - Laravel Setup
+    `docker exec -it yii2-laravel-laravel composer install`
     `docker exec -it yii2-laravel-laravel php artisan migrate`
   - Yii
-  
+    `docker exec -it yii2-laravel-laravel composer install`
     `docker exec -it yii2-laravel-yii php console/yii migrate`
   
 #### link:
