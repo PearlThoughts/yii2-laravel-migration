@@ -17,9 +17,9 @@
      `docker exec -it yii2-laravel-laravel php artisan migrate`
   - Yii Setup
   
-     `docker exec -it yii2-laravel-yii composer install`
+     `docker exec -it yii2-laravel-yii2 composer install`
      
-     `docker exec -it yii2-laravel-yii php console/yii migrate`
+     `docker exec -it yii2-laravel-yii2 php console/yii migrate`
   
 #### link:
 
