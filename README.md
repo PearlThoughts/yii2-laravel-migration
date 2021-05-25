@@ -11,11 +11,15 @@
 
 ### Step 3
   - Laravel Setup
-    `docker exec -it yii2-laravel-laravel composer install`
-    `docker exec -it yii2-laravel-laravel php artisan migrate`
-  - Yii
-    `docker exec -it yii2-laravel-laravel composer install`
-    `docker exec -it yii2-laravel-yii php console/yii migrate`
+  
+     `docker exec -it yii2-laravel-laravel composer install`
+     
+     `docker exec -it yii2-laravel-laravel php artisan migrate`
+  - Yii Setup
+  
+     `docker exec -it yii2-laravel-laravel composer install`
+     
+     `docker exec -it yii2-laravel-yii php console/yii migrate`
   
 #### link:
 
