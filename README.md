@@ -17,6 +17,10 @@
      `docker exec -it yii2-laravel-laravel php artisan migrate`
      
      `docker exec -it yii2-laravel-laravel php artisan db:seed`
+
+     `docker exec -it yii2-laravel-laravel npm install`
+
+     `docker exec -it yii2-laravel-laravel npm run dev`
      
   - <a href="https://github.com/yii-starter-kit/yii2-starter-kit">Yii Setup</a>
   
@@ -25,6 +29,10 @@
      `docker exec -it yii2-laravel-yii2 php console/yii migrate`
      
      `docker exec -it yii2-laravel-yii2 php console/yii rbac-migrate`
+
+     `docker exec -it yii2-laravel-yii2 npm install`
+
+     `docker exec -it yii2-laravel-yii2 npm run build`
   
 #### link:
 
