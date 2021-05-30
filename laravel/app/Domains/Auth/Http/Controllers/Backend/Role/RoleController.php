@@ -9,11 +9,12 @@ use App\Domains\Auth\Http\Requests\Backend\Role\UpdateRoleRequest;
 use App\Domains\Auth\Models\Role;
 use App\Domains\Auth\Services\PermissionService;
 use App\Domains\Auth\Services\RoleService;
+use App\Http\Controllers\Controller;
 
 /**
  * Class RoleController.
  */
-class RoleController
+class RoleController extends Controller
 {
     /**
      * @var RoleService
@@ -80,7 +81,7 @@ class RoleController
         return view('backend.auth.role.edit')
             ->withCategories($this->permissionService->getCategorizedPermissions())
             ->withGeneral($this->permissionService->getUncategorizedPermissions())
-            ->withRole($role)
+            ->withRole($role->load('permissions'))
             ->withUsedPermissions($role->permissions->modelKeys());
     }
 

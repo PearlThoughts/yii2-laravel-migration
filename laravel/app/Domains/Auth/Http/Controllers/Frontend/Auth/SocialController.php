@@ -2,14 +2,15 @@
 
 namespace App\Domains\Auth\Http\Controllers\Frontend\Auth;
 
-use App\Domains\Auth\Events\User\UserLoggedIn;
+use App\Domains\Auth\Events\UserLoggedIn;
 use App\Domains\Auth\Services\UserService;
+use App\Http\Controllers\Controller;
 use Laravel\Socialite\Facades\Socialite;
 
 /**
  * Class SocialController.
  */
-class SocialController
+class SocialController extends Controller
 {
     /**
      * @param $provider

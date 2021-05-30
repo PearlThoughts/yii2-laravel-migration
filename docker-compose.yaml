@@ -30,6 +30,8 @@ services:
     environment:
       - "DB_PORT=3306"
       - "DB_HOST=db"
+    env_file:
+      - ./yii2/.env
   yii2:
     image: pearl:php7.4-fpm-node
     container_name: yii2-laravel-yii2

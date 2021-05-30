@@ -5,7 +5,6 @@
 /public/fonts
 /public/hot
 /public/storage
-/public/mix-manifest.json
 /storage/*.key
 /vendor
 /.vscode
@@ -13,6 +12,7 @@
 *.sublime-workspace
 _ide_helper.php
 .DS_Store
+.env
 .env.backup
 .idea
 .php_cs.cache
@@ -21,7 +21,6 @@ _ide_helper.php
 .project
 composer.phar
 coverage.xml
-docker-compose.override.yml
 error.log
 Homestead.json
 Homestead.yaml

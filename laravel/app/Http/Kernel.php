@@ -19,11 +19,11 @@ class Kernel extends HttpKernel
     protected $middleware = [
         // \App\Http\Middleware\TrustHosts::class,
         \App\Http\Middleware\TrustProxies::class,
-        \Fruitcake\Cors\HandleCors::class,
         \App\Http\Middleware\CheckForMaintenanceMode::class,
         \Illuminate\Foundation\Http\Middleware\ValidatePostSize::class,
         \App\Http\Middleware\TrimStrings::class,
         \Illuminate\Foundation\Http\Middleware\ConvertEmptyStringsToNull::class,
+        \Yii2tech\Illuminate\Http\YiiApplicationMiddleware::class . ':legacy/backend/web/index.php',
     ];
 
     /**
@@ -45,18 +45,14 @@ class Kernel extends HttpKernel
         ],
 
         'api' => [
-            'throttle:api',
+            'throttle:60,1',
             \Illuminate\Routing\Middleware\SubstituteBindings::class,
         ],
 
         'admin' => [
-            /*
-             * This is configurable, disable boilerplate.access.user.admin_requires_2fa instead of removing this
-             */
-            '2fa:enabled',
             'auth',
             'password.expires',
-            'is_admin',
+            'permission:view backend',
         ],
     ];
 
@@ -75,16 +71,12 @@ class Kernel extends HttpKernel
         'cache.headers' => \Illuminate\Http\Middleware\SetCacheHeaders::class,
         'can' => \Illuminate\Auth\Middleware\Authorize::class,
         'guest' => \App\Http\Middleware\RedirectIfAuthenticated::class,
-        'is_admin' => \App\Domains\Auth\Http\Middleware\AdminCheck::class,
-        'is_super_admin' => \App\Domains\Auth\Http\Middleware\SuperAdminCheck::class,
-        'is_user' => \App\Domains\Auth\Http\Middleware\UserCheck::class,
         'password.confirm' => \Illuminate\Auth\Middleware\RequirePassword::class,
         'password.expires' => \App\Domains\Auth\Http\Middleware\PasswordExpires::class,
         'permission' => \Spatie\Permission\Middlewares\PermissionMiddleware::class,
         'role' => \Spatie\Permission\Middlewares\RoleMiddleware::class,
         'signed' => \Illuminate\Routing\Middleware\ValidateSignature::class,
         'throttle' => \Illuminate\Routing\Middleware\ThrottleRequests::class,
-        'type' => \App\Domains\Auth\Http\Middleware\UserTypeCheck::class,
         'verified' => \Illuminate\Auth\Middleware\EnsureEmailIsVerified::class,
     ];
 

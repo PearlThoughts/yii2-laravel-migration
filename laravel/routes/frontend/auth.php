@@ -11,7 +11,6 @@ use App\Domains\Auth\Http\Controllers\Frontend\Auth\SocialController;
 use App\Domains\Auth\Http\Controllers\Frontend\Auth\TwoFactorAuthenticationController;
 use App\Domains\Auth\Http\Controllers\Frontend\Auth\UpdatePasswordController;
 use App\Domains\Auth\Http\Controllers\Frontend\Auth\VerificationController;
-use Tabuna\Breadcrumbs\Trail;
 
 /*
  * Frontend Access Controllers
@@ -30,12 +29,8 @@ Route::group(['as' => 'auth.'], function () {
         Route::group(['middleware' => 'password.expires'], function () {
             // E-mail Verification
             Route::get('email/verify', [VerificationController::class, 'show'])->name('verification.notice');
-            Route::get('email/verify/{id}/{hash}', [VerificationController::class, 'verify'])
-                ->name('verification.verify')
-                ->middleware(['signed', 'throttle:6,1']);
-            Route::post('email/resend', [VerificationController::class, 'resend'])
-                ->name('verification.resend')
-                ->middleware('throttle:6,1');
+            Route::get('email/verify/{id}/{hash}', [VerificationController::class, 'verify'])->name('verification.verify');
+            Route::post('email/resend', [VerificationController::class, 'resend'])->name('verification.resend');
 
             // These routes require the users email to be verified
             Route::group(['middleware' => config('boilerplate.access.middleware.verified')], function () {
@@ -48,31 +43,13 @@ Route::group(['as' => 'auth.'], function () {
                 // Two-factor Authentication
                 Route::group(['prefix' => 'account/2fa', 'as' => 'account.2fa.'], function () {
                     Route::group(['middleware' => '2fa:disabled'], function () {
-                        Route::get('enable', [TwoFactorAuthenticationController::class, 'create'])
-                            ->name('create')
-                            ->breadcrumbs(function (Trail $trail) {
-                                $trail->parent('frontend.user.account')
-                                    ->push(__('Enable Two Factor Authentication'), route('frontend.auth.account.2fa.create'));
-                            });
+                        Route::get('enable', [TwoFactorAuthenticationController::class, 'create'])->name('create');
                     });
 
                     Route::group(['middleware' => '2fa:enabled'], function () {
-                        Route::get('recovery', [TwoFactorAuthenticationController::class, 'show'])
-                            ->name('show')
-                            ->breadcrumbs(function (Trail $trail) {
-                                $trail->parent('frontend.user.account')
-                                    ->push(__('Two Factor Recovery Codes'), route('frontend.auth.account.2fa.show'));
-                            });
-
+                        Route::get('recovery', [TwoFactorAuthenticationController::class, 'show'])->name('show');
                         Route::patch('recovery/generate', [TwoFactorAuthenticationController::class, 'update'])->name('update');
-
-                        Route::get('disable', [DisableTwoFactorAuthenticationController::class, 'show'])
-                            ->name('disable')
-                            ->breadcrumbs(function (Trail $trail) {
-                                $trail->parent('frontend.user.account')
-                                    ->push(__('Disable Two Factor Authentication'), route('frontend.auth.account.2fa.disable'));
-                            });
-
+                        Route::get('disable', [DisableTwoFactorAuthenticationController::class, 'show'])->name('disable');
                         Route::delete('/', [DisableTwoFactorAuthenticationController::class, 'destroy'])->name('destroy');
                     });
                 });

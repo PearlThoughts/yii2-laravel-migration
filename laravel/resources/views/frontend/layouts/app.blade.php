@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="csrf-token" content="{{ csrf_token() }}">
-    <title>{{ appName() }} | @yield('title')</title>
+    <title>{{ appName() }} - @yield('title')</title>
     <meta name="description" content="@yield('meta_description', appName())">
     <meta name="author" content="@yield('meta_author', 'Anthony Rappa')">
     @yield('meta')
@@ -15,6 +15,8 @@
     <link href="{{ mix('css/frontend.css') }}" rel="stylesheet">
     <livewire:styles />
     @stack('after-styles')
+
+    @include('includes.partials.ga')
 </head>
 <body>
     @include('includes.partials.read-only')
@@ -23,9 +25,9 @@
 
     <div id="app">
         @include('frontend.includes.nav')
-        @include('includes.partials.messages')
 
-        <main>
+        <main class="container py-4">
+            @include('includes.partials.messages')
             @yield('content')
         </main>
     </div><!--app-->

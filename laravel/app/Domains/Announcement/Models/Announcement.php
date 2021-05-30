@@ -3,25 +3,17 @@
 namespace App\Domains\Announcement\Models;
 
 use App\Domains\Announcement\Models\Traits\Scope\AnnouncementScope;
-use Database\Factories\AnnouncementFactory;
-use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Model;
-use Spatie\Activitylog\Traits\LogsActivity;
+use App\Models\RecordingModel;
 
 /**
  * Class Announcement.
  */
-class Announcement extends Model
+class Announcement extends RecordingModel
 {
-    use AnnouncementScope,
-        HasFactory,
-        LogsActivity;
+    use AnnouncementScope;
 
     public const TYPE_FRONTEND = 'frontend';
     public const TYPE_BACKEND = 'backend';
-
-    protected static $logFillable = true;
-    protected static $logOnlyDirty = true;
 
     /**
      * @var string[]
@@ -49,14 +41,4 @@ class Announcement extends Model
     protected $casts = [
         'enabled' => 'boolean',
     ];
-
-    /**
-     * Create a new factory instance for the model.
-     *
-     * @return \Illuminate\Database\Eloquent\Factories\Factory
-     */
-    protected static function newFactory()
-    {
-        return AnnouncementFactory::new();
-    }
 }

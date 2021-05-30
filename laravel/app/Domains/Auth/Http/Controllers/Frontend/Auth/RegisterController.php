@@ -3,7 +3,7 @@
 namespace App\Domains\Auth\Http\Controllers\Frontend\Auth;
 
 use App\Domains\Auth\Services\UserService;
-use App\Rules\Captcha;
+use App\Http\Controllers\Controller;
 use Illuminate\Foundation\Auth\RegistersUsers;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\Rule;
@@ -12,7 +12,7 @@ use LangleyFoxall\LaravelNISTPasswordRules\PasswordRules;
 /**
  * Class RegisterController.
  */
-class RegisterController
+class RegisterController extends Controller
 {
     /*
     |--------------------------------------------------------------------------
@@ -73,14 +73,9 @@ class RegisterController
     protected function validator(array $data)
     {
         return Validator::make($data, [
-            'name' => ['required', 'string', 'max:100'],
+            'name' => ['required', 'string', 'max:255'],
             'email' => ['required', 'string', 'email', 'max:255', Rule::unique('users')],
-            'password' => array_merge(['max:100'], PasswordRules::register($data['email'] ?? null)),
-            'terms' => ['required', 'in:1'],
-            'g-recaptcha-response' => ['required_if:captcha_status,true', new Captcha],
-        ], [
-            'terms.required' => __('You must accept the Terms & Conditions.'),
-            'g-recaptcha-response.required_if' => __('validation.required', ['attribute' => 'captcha']),
+            'password' => PasswordRules::register($data['email'] ?? null),
         ]);
     }
 

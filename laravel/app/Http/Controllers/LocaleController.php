@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 /**
  * Class LocaleController.
  */
-class LocaleController
+class LocaleController extends Controller
 {
     /**
      * @param $locale

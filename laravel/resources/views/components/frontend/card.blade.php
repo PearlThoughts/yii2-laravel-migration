@@ -2,12 +2,6 @@
     @if (isset($header))
         <div class="card-header">
             {{ $header }}
-
-            @if (isset($headerActions))
-                <div class="d-inline-block float-right">
-                    {{ $headerActions }}
-                </div><!--card-header-actions-->
-            @endif
         </div><!--card-header-->
     @endif
 

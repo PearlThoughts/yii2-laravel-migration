@@ -2,12 +2,13 @@
 
 namespace App\Domains\Auth\Http\Controllers\Frontend\Auth;
 
+use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 
 /**
  * Class TwoFactorAuthenticationController.
  */
-class TwoFactorAuthenticationController
+class TwoFactorAuthenticationController extends Controller
 {
     /**
      * @param  Request  $request

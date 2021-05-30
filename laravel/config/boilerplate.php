@@ -14,20 +14,6 @@ return [
     | Configurations related to the boilerplate's access/authorization options
     */
     'access' => [
-        'captcha' => [
-            'configs' => [
-                'site_key' => env('INVISIBLE_RECAPTCHA_SITEKEY'),
-                'secret_key' => env('INVISIBLE_RECAPTCHA_SECRETKEY'),
-                'options' => [
-                    'hidden' => false,
-                    'location' => 'bottomright',
-                    'timeout' => 5,
-                ],
-            ],
-            'login' => env('LOGIN_CAPTCHA_STATUS', false),
-            'registration' => env('REGISTRATION_CAPTCHA_STATUS', false),
-        ],
-
         'middleware' => [
             'confirm' => 'password.confirm:frontend.auth.password.confirm',
             'verified' => 'verified:frontend.auth.verification.notice',
@@ -35,26 +21,16 @@ return [
 
         'user' => [
             /*
-             * Whether or not admins need 2FA enabled to visit the backend
-             */
-            'admin_requires_2fa' => env('ADMIN_REQUIRES_2FA', true),
-
-            /*
              * Whether or not a user can change their email address after
              * their account has already been created
              */
-            'change_email' => env('CHANGE_EMAIL', true),
-
-            /*
-             * When creating users from the backend, only allow the assigning of roles and not individual permissions
-             */
-            'only_roles' => false,
+            'change_email' => env('CHANGE_EMAIL', false),
 
             /*
              * How many days before users have to change their passwords
              * false is off
              */
-            'password_expires_days' => env('PASSWORD_EXPIRES_DAYS', 180),
+            'password_expires_days' => env('PASSWORD_EXPIRES_DAYS', 120),
 
             /*
              * The number of most recent previous passwords to check against when changing/resetting a password
@@ -71,6 +47,12 @@ return [
              * but the permanently deleted button on the 'deleted users' screen will be hidden.
              */
             'permanently_delete' => false,
+
+            /*
+             * Use the homeRoute() helper to determine where to send the user after login based on their status
+             * If false the frontend.index route will be used
+             */
+            'redirect' => true,
 
             /*
              * Whether or not the register route and view are active
@@ -94,8 +76,23 @@ return [
              * It is not recommended to change
              */
             'admin' => 'Administrator',
+
+            /*
+             * The ID of the default role to give newly registered users
+             * Use ID because the name can be changed from the backend
+             */
+            'default' => 2,
         ],
     ],
+
+    /*
+    |--------------------------------------------------------------------------
+    | Google Analytics
+    |--------------------------------------------------------------------------
+    |
+    | Found in views/includes/partials/ga.blade.php
+    */
+    'google_analytics' => env('GOOGLE_ANALYTICS', 'UA-XXXXX-X'),
 
     /*
     |--------------------------------------------------------------------------
@@ -111,16 +108,6 @@ return [
          */
         'size' => 80,
     ],
-
-    /*
-    |--------------------------------------------------------------------------
-    | Frontend Breadcrumbs
-    |--------------------------------------------------------------------------
-    |
-    | Whether or not to show the breadcrumb trail on the frontend
-    | Note: Turning this off does not unregister the breadcrumbs in the routes file, it just hides the navbar
-    */
-    'frontend_breadcrumbs' => true,
 
     /*
     |--------------------------------------------------------------------------
@@ -151,7 +138,6 @@ return [
             'az' => ['name' => 'Azerbaijan', 'rtl' => false],
             'zh' => ['name' => 'Chinese Simplified', 'rtl' => false],
             'zh-TW' => ['name' => 'Chinese Traditional', 'rtl' => false],
-            'cs' => ['name' => 'Czech', 'rtl' => false],
             'da' => ['name' => 'Danish', 'rtl' => false],
             'de' => ['name' => 'German', 'rtl' => false],
             'el' => ['name' => 'Greek', 'rtl' => false],
@@ -163,13 +149,9 @@ return [
             'id' => ['name' => 'Indonesian', 'rtl' => false],
             'it' => ['name' => 'Italian', 'rtl' => false],
             'ja' => ['name' => 'Japanese', 'rtl' => false],
-            'ko' => ['name' => 'Korean', 'rtl' => false],
             'nl' => ['name' => 'Dutch', 'rtl' => false],
             'no' => ['name' => 'Norwegian', 'rtl' => false],
-            'pl' => ['name' => 'Polish', 'rtl' => false],
             'pt_BR' => ['name' => 'Brazilian Portuguese', 'rtl' => false],
-            'pt_PT' => ['name' => 'Portuguese', 'rtl' => false],
-            'ro' => ['name' => 'Romana', 'rtl' => false],
             'ru' => ['name' => 'Russian', 'rtl' => false],
             'sv' => ['name' => 'Swedish', 'rtl' => false],
             'th' => ['name' => 'Thai', 'rtl' => false],

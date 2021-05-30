@@ -2,7 +2,7 @@
 
 namespace Tests\Feature\Frontend;
 
-use App\Domains\Auth\Events\User\UserLoggedIn;
+use App\Domains\Auth\Events\UserLoggedIn;
 use App\Domains\Auth\Models\User;
 use Illuminate\Support\Facades\Event;
 use Illuminate\Validation\ValidationException;
@@ -32,7 +32,7 @@ class LoginTest extends TestCase
     {
         Event::fake();
 
-        $user = User::factory()->create([
+        $user = factory(User::class)->create([
             'email' => 'john@example.com',
             'password' => 'secret',
         ]);
@@ -52,7 +52,7 @@ class LoginTest extends TestCase
     /** @test */
     public function inactive_users_cant_login()
     {
-        User::factory()->inactive()->create([
+        factory(User::class)->states('inactive')->create([
             'email' => 'john@example.com',
             'password' => 'secret',
         ]);
@@ -84,7 +84,7 @@ class LoginTest extends TestCase
     /** @test */
     public function a_users_ip_and_login_time_is_updated_on_login()
     {
-        $user = User::factory()->create([
+        $user = factory(User::class)->create([
             'email' => 'john@example.com',
             'password' => 'secret',
             'last_login_at' => null,
@@ -106,7 +106,7 @@ class LoginTest extends TestCase
     /** @test */
     public function a_user_can_log_out()
     {
-        $user = User::factory()->create();
+        $user = factory(User::class)->create();
 
         $this->actingAs($user)
             ->post('/logout')

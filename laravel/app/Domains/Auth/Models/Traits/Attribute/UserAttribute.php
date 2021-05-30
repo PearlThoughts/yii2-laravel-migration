@@ -24,19 +24,11 @@ trait UserAttribute
     }
 
     /**
-     * @return mixed
-     */
-    public function getAvatarAttribute()
-    {
-        return $this->getAvatar();
-    }
-
-    /**
      * @return string
      */
     public function getPermissionsLabelAttribute()
     {
-        if ($this->hasAllAccess()) {
+        if ($this->isAdmin()) {
             return 'All';
         }
 
@@ -49,11 +41,19 @@ trait UserAttribute
     }
 
     /**
+     * @return mixed
+     */
+    public function getAvatarAttribute()
+    {
+        return $this->getAvatar();
+    }
+
+    /**
      * @return string
      */
     public function getRolesLabelAttribute()
     {
-        if ($this->hasAllAccess()) {
+        if ($this->isAdmin()) {
             return 'All';
         }
 

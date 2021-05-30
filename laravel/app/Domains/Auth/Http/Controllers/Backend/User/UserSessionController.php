@@ -4,11 +4,12 @@ namespace App\Domains\Auth\Http\Controllers\Backend\User;
 
 use App\Domains\Auth\Http\Requests\Backend\User\ClearUserSessionRequest;
 use App\Domains\Auth\Models\User;
+use App\Http\Controllers\Controller;
 
 /**
  * Class UserSessionController.
  */
-class UserSessionController
+class UserSessionController extends Controller
 {
     /**
      * @param  ClearUserSessionRequest  $request

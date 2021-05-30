@@ -5,9 +5,7 @@ $(function () {
     /**
      * Checkbox tree for permission selecting
      */
-    let permissionTree = $('.permission-tree :checkbox');
-
-    permissionTree.on('click change', function (){
+    $('#tree :checkbox').on('click change', function (){
         if($(this).is(':checked')) {
             $(this).siblings('ul').find('input[type="checkbox"]').attr('checked', true).attr('disabled', true);
         } else {
@@ -15,7 +13,7 @@ $(function () {
         }
     });
 
-    permissionTree.each(function () {
+    $('#tree :checkbox').each(function () {
         if($(this).is(':checked')) {
             $(this).siblings('ul').find('input[type="checkbox"]').attr('checked', true).attr('disabled', true);
         }

@@ -2,12 +2,11 @@
 
 namespace Tests\Feature\Backend\User;
 
-use App\Domains\Auth\Events\User\UserCreated;
 use App\Domains\Auth\Models\Role;
 use App\Domains\Auth\Models\User;
 use App\Domains\Auth\Notifications\Frontend\VerifyEmail;
+use Illuminate\Auth\Middleware\RequirePassword;
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Support\Facades\Event;
 use Illuminate\Support\Facades\Notification;
 use Tests\TestCase;
 
@@ -21,6 +20,8 @@ class CreateUserTest extends TestCase
     /** @test */
     public function an_admin_can_access_the_create_user_page()
     {
+        $this->withoutMiddleware(RequirePassword::class);
+
         $this->loginAsAdmin();
 
         $response = $this->get('/admin/auth/user/create');
@@ -31,19 +32,23 @@ class CreateUserTest extends TestCase
     /** @test */
     public function create_user_requires_validation()
     {
+        $this->withoutMiddleware(RequirePassword::class);
+
         $this->loginAsAdmin();
 
         $response = $this->post('/admin/auth/user');
 
-        $response->assertSessionHasErrors(['type', 'name', 'email', 'password']);
+        $response->assertSessionHasErrors(['name', 'email', 'password', 'roles']);
     }
 
     /** @test */
     public function user_email_needs_to_be_unique()
     {
+        $this->withoutMiddleware(RequirePassword::class);
+
         $this->loginAsAdmin();
 
-        User::factory()->create(['email' => 'john@example.com']);
+        factory(User::class)->create(['email' => 'john@example.com']);
 
         $response = $this->post('/admin/auth/user', [
             'email' => 'john@example.com',
@@ -55,12 +60,11 @@ class CreateUserTest extends TestCase
     /** @test */
     public function admin_can_create_new_user()
     {
-        Event::fake();
+        $this->withoutMiddleware(RequirePassword::class);
 
         $this->loginAsAdmin();
 
         $response = $this->post('/admin/auth/user', [
-            'type' => User::TYPE_ADMIN,
             'name' => 'John Doe',
             'email' => 'john@example.com',
             'password' => 'OC4Nzu270N!QBVi%U%qX',
@@ -74,7 +78,6 @@ class CreateUserTest extends TestCase
         $this->assertDatabaseHas(
             'users',
             [
-                'type' => User::TYPE_ADMIN,
                 'name' => 'John Doe',
                 'email' => 'john@example.com',
                 'active' => true,
@@ -88,19 +91,18 @@ class CreateUserTest extends TestCase
         ]);
 
         $response->assertSessionHas(['flash_success' => __('The user was successfully created.')]);
-
-        Event::assertDispatched(UserCreated::class);
     }
 
     /** @test */
     public function when_an_unconfirmed_user_is_created_a_notification_will_be_sent()
     {
+        $this->withoutMiddleware(RequirePassword::class);
+
         Notification::fake();
 
         $this->loginAsAdmin();
 
         $response = $this->post('/admin/auth/user', [
-            'type' => User::TYPE_ADMIN,
             'name' => 'John Doe',
             'email' => 'john@example.com',
             'password' => 'OC4Nzu270N!QBVi%U%qX',
@@ -121,7 +123,7 @@ class CreateUserTest extends TestCase
     /** @test */
     public function only_admin_can_create_users()
     {
-        $this->actingAs(User::factory()->admin()->create());
+        $this->actingAs(factory(User::class)->create());
 
         $response = $this->get('/admin/auth/user/create');
 

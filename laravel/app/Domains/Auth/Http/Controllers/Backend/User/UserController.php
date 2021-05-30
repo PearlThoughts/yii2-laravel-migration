@@ -10,11 +10,12 @@ use App\Domains\Auth\Models\User;
 use App\Domains\Auth\Services\PermissionService;
 use App\Domains\Auth\Services\RoleService;
 use App\Domains\Auth\Services\UserService;
+use App\Http\Controllers\Controller;
 
 /**
  * Class UserController.
  */
-class UserController
+class UserController extends Controller
 {
     /**
      * @var UserService
@@ -46,7 +47,7 @@ class UserController
     }
 
     /**
-     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
+     * @return \Illuminate\View\View
      */
     public function index()
     {
@@ -59,7 +60,7 @@ class UserController
     public function create()
     {
         return view('backend.auth.user.create')
-            ->withRoles($this->roleService->get())
+            ->withRoles($this->roleService->with('permissions')->get())
             ->withCategories($this->permissionService->getCategorizedPermissions())
             ->withGeneral($this->permissionService->getUncategorizedPermissions());
     }
@@ -99,7 +100,7 @@ class UserController
     {
         return view('backend.auth.user.edit')
             ->withUser($user)
-            ->withRoles($this->roleService->get())
+            ->withRoles($this->roleService->with('permissions')->get())
             ->withCategories($this->permissionService->getCategorizedPermissions())
             ->withGeneral($this->permissionService->getUncategorizedPermissions())
             ->withUsedPermissions($user->permissions->modelKeys());

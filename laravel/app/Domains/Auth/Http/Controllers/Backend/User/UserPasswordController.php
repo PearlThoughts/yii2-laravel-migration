@@ -6,11 +6,12 @@ use App\Domains\Auth\Http\Requests\Backend\User\EditUserPasswordRequest;
 use App\Domains\Auth\Http\Requests\Backend\User\UpdateUserPasswordRequest;
 use App\Domains\Auth\Models\User;
 use App\Domains\Auth\Services\UserService;
+use App\Http\Controllers\Controller;
 
 /**
  * Class UserPasswordController.
  */
-class UserPasswordController
+class UserPasswordController extends Controller
 {
     /**
      * @var UserService
