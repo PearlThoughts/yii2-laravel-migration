@@ -19,7 +19,14 @@ $config = [
             'assignmentTable' => '{{%rbac_auth_assignment}}',
             'ruleTable' => '{{%rbac_auth_rule}}',
         ],
-
+        // Yii - laravel session handshake start
+        'session' => Yii2tech\Illuminate\Yii\Web\Session::class,
+        'user' => [
+            'idParam' => app()->make('auth')->guard('web')->getName(),
+        ],
+        'user' => Yii2tech\Illuminate\Yii\Web\User::class,
+        'db' => Yii2tech\Illuminate\Yii\Db\Connection::class,
+        // Yii - laravel session handshake end
         'cache' => [
             'class' => yii\caching\FileCache::class,
             'cachePath' => '@common/runtime/cache',
@@ -57,15 +64,15 @@ $config = [
             ],
         ],
 
-        'db' => [
-            'class' => yii\db\Connection::class,
-            'dsn' => env('DB_DSN'),
-            'username' => env('DB_USERNAME'),
-            'password' => env('DB_PASSWORD'),
-            'tablePrefix' => env('DB_TABLE_PREFIX'),
-            'charset' => env('DB_CHARSET', 'utf8'),
-            'enableSchemaCache' => YII_ENV_PROD,
-        ],
+        // 'db' => [
+        //     'class' => yii\db\Connection::class,
+        //     'dsn' => env('DB_DSN'),
+        //     'username' => env('DB_USERNAME'),
+        //     'password' => env('DB_PASSWORD'),
+        //     'tablePrefix' => env('DB_TABLE_PREFIX'),
+        //     'charset' => env('DB_CHARSET', 'utf8'),
+        //     'enableSchemaCache' => YII_ENV_PROD,
+        // ],
 
         'log' => [
             'traceLevel' => YII_DEBUG ? 3 : 0,

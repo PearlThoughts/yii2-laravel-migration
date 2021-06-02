@@ -4,7 +4,8 @@ $config = [
         'assetManager' => [
             'class' => yii\web\AssetManager::class,
             'linkAssets' => env('LINK_ASSETS'),
-            'appendTimestamp' => YII_ENV_DEV
+            'appendTimestamp' => YII_ENV_DEV,
+            'baseUrl' => '/assets'
         ]
     ],
     'as locale' => [

@@ -2,6 +2,8 @@
 
 use App\Http\Controllers\LocaleController;
 
+require __DIR__.'/yii2.php';
+
 /*
  * Global Routes
  * Routes that are used between both frontend and backend.
