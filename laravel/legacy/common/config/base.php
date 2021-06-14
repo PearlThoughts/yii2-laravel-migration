@@ -20,12 +20,12 @@ $config = [
             'ruleTable' => '{{%rbac_auth_rule}}',
         ],
         // Yii - laravel session handshake start
-        'session' => Yii2tech\Illuminate\Yii\Web\Session::class,
-        'user' => [
-            'idParam' => app()->make('auth')->guard('web')->getName(),
-        ],
-        'user' => Yii2tech\Illuminate\Yii\Web\User::class,
+        // 'session' => Yii2tech\Illuminate\Yii\Web\Session::class,
+        // 'user' => Yii2tech\Illuminate\Yii\Web\User::class,
         'db' => Yii2tech\Illuminate\Yii\Db\Connection::class,
+        'session' => [
+            'class' => Yii2tech\Illuminate\Yii\Web\Session::class,
+        ],
         // Yii - laravel session handshake end
         'cache' => [
             'class' => yii\caching\FileCache::class,

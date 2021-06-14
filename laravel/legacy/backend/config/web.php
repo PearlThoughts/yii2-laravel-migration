@@ -10,11 +10,13 @@ $config = [
         'request' => [
             'cookieValidationKey' => env('BACKEND_COOKIE_VALIDATION_KEY'),
             'baseUrl' => env('BACKEND_BASE_URL'),
+            'csrfParam' => '_token',
         ],
         'user' => [
-            'class' => yii\web\User::class,
+            'class' => Yii2tech\Illuminate\Yii\Web\User::class,
             'identityClass' => common\models\User::class,
             'loginUrl' => ['sign-in/login'],
+            // 'idParam' => app()->make('auth')->guard('web')->getName(),
             'enableAutoLogin' => true,
             'as afterLogin' => common\behaviors\LoginTimestampBehavior::class,
         ],

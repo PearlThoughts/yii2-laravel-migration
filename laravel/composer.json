@@ -112,10 +112,6 @@
         "post-create-project-cmd": [
             "@php artisan key:generate --ansi"
         ],
-        "post-update-cmd": [
-            "@php artisan ide-helper:generate",
-            "@php artisan ide-helper:meta"
-        ],
         "clear-all": [
             "@php artisan clear-compiled",
             "@php artisan cache:clear",

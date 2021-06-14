@@ -4,6 +4,13 @@ use App\Http\Controllers\LocaleController;
 
 require __DIR__.'/yii2.php';
 
+Route::group(['middleware' => 'auth'], function () {
+
+    Route::get('authenticated', function(){
+        return "logged in";
+    });
+});
+
 /*
  * Global Routes
  * Routes that are used between both frontend and backend.
