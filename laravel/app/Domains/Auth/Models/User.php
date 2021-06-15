@@ -59,6 +59,7 @@ class User extends Authenticatable implements MustVerifyEmail, Recordable, TwoFa
         'provider_id',
     ];
 
+    public $table = 'user';
     /**
      * The attributes that should be hidden for arrays.
      *
