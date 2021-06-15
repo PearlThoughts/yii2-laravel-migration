@@ -26,11 +26,15 @@ $config = [
         'session' => [
             'class' => Yii2tech\Illuminate\Yii\Web\Session::class,
         ],
-        // Yii - laravel session handshake end
-        'cache' => [
-            'class' => yii\caching\FileCache::class,
-            'cachePath' => '@common/runtime/cache',
+        'request' => [
+            'class' => Yii2tech\Illuminate\Yii\Web\Request::class,
+            'useIlluminateCsrfValildation' => true,
+            'csrfParam' => '_token',
+            'enableCookieValidation' => false,
         ],
+        'cache' => Yii2tech\Illuminate\Yii\Caching\Cache::class,
+        'response' => Yii2tech\Illuminate\Yii\Web\Response::class,
+        // Yii - laravel session handshake end
 
         'commandBus' => [
             'class' => trntv\bus\CommandBus::class,
