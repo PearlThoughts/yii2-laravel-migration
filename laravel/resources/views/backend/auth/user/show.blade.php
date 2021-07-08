@@ -15,11 +15,6 @@
         <x-slot name="body">
             <table class="table table-hover">
                 <tr>
-                    <th>@lang('Type')</th>
-                    <td>@include('backend.auth.user.includes.type')</td>
-                </tr>
-
-                <tr>
                     <th>@lang('Avatar')</th>
                     <td><img src="{{ $user->avatar }}" class="user-profile-image" /></td>
                 </tr>
@@ -42,11 +37,6 @@
                 <tr>
                     <th>@lang('Verified')</th>
                     <td>@include('backend.auth.user.includes.verified', ['user' => $user])</td>
-                </tr>
-
-                <tr>
-                    <th>@lang('2FA')</th>
-                    <td>@include('backend.auth.user.includes.2fa', ['user' => $user])</td>
                 </tr>
 
                 <tr>

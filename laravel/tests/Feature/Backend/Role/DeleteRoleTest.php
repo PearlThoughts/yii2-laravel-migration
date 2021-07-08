@@ -2,11 +2,10 @@
 
 namespace Tests\Feature\Backend\Role;
 
-use App\Domains\Auth\Events\Role\RoleDeleted;
 use App\Domains\Auth\Models\Role;
 use App\Domains\Auth\Models\User;
+use Illuminate\Auth\Middleware\RequirePassword;
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Support\Facades\Event;
 use Tests\TestCase;
 
 /**
@@ -19,9 +18,9 @@ class DeleteRoleTest extends TestCase
     /** @test */
     public function a_role_can_be_deleted()
     {
-        Event::fake();
+        $this->withoutMiddleware(RequirePassword::class);
 
-        $role = Role::factory()->create();
+        $role = factory(Role::class)->create();
 
         $this->loginAsAdmin();
 
@@ -30,13 +29,13 @@ class DeleteRoleTest extends TestCase
         $this->delete("/admin/auth/role/{$role->id}");
 
         $this->assertDatabaseMissing(config('permission.table_names.roles'), ['id' => $role->id]);
-
-        Event::assertDispatched(RoleDeleted::class);
     }
 
     /** @test */
     public function the_admin_role_can_not_be_deleted()
     {
+        $this->withoutMiddleware(RequirePassword::class);
+
         $this->loginAsAdmin();
 
         $role = Role::whereName(config('boilerplate.access.role.admin'))->first();
@@ -51,10 +50,12 @@ class DeleteRoleTest extends TestCase
     /** @test */
     public function a_role_with_assigned_users_cant_be_deleted()
     {
+        $this->withoutMiddleware(RequirePassword::class);
+
         $this->loginAsAdmin();
 
-        $role = Role::factory()->create();
-        $user = User::factory()->create();
+        $role = factory(Role::class)->create();
+        $user = factory(User::class)->create();
         $user->assignRole($role);
 
         $response = $this->delete('/admin/auth/role/'.$role->id);
@@ -67,9 +68,9 @@ class DeleteRoleTest extends TestCase
     /** @test */
     public function only_admin_can_delete_roles()
     {
-        $this->actingAs(User::factory()->admin()->create());
+        $this->actingAs(factory(User::class)->create());
 
-        $role = Role::factory()->create();
+        $role = factory(Role::class)->create();
 
         $response = $this->delete('/admin/auth/role/'.$role->id);
 

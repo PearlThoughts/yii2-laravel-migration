@@ -3,6 +3,7 @@
 namespace App\Domains\Auth\Http\Controllers\Frontend\Auth;
 
 use App\Domains\Auth\Rules\UnusedPassword;
+use App\Http\Controllers\Controller;
 use App\Providers\RouteServiceProvider;
 use Illuminate\Foundation\Auth\ResetsPasswords;
 use Illuminate\Http\Request;
@@ -11,7 +12,7 @@ use LangleyFoxall\LaravelNISTPasswordRules\PasswordRules;
 /**
  * Class ResetPasswordController.
  */
-class ResetPasswordController
+class ResetPasswordController extends Controller
 {
     /*
     |--------------------------------------------------------------------------
@@ -50,10 +51,9 @@ class ResetPasswordController
     {
         return [
             'token' => ['required'],
-            'email' => ['required', 'max:255', 'email'],
+            'email' => ['required', 'email'],
             'password' => array_merge(
                 [
-                    'max:100',
                     new UnusedPassword(request('email')),
                 ],
                 PasswordRules::changePassword(request('email'))

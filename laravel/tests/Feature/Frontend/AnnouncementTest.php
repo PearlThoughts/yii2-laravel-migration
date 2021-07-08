@@ -13,7 +13,7 @@ class AnnouncementTest extends TestCase
     /** @test */
     public function announcement_is_only_visible_on_frontend()
     {
-        $announcement = Announcement::factory()->enabled()->frontend()->noDates()->create();
+        $announcement = factory(Announcement::class)->states(['enabled', 'frontend', 'no-dates'])->create();
 
         $response = $this->get('login');
 
@@ -29,7 +29,7 @@ class AnnouncementTest extends TestCase
     /** @test */
     public function announcement_is_only_visible_on_backend()
     {
-        $announcement = Announcement::factory()->enabled()->backend()->noDates()->create();
+        $announcement = factory(Announcement::class)->states(['enabled', 'backend', 'no-dates'])->create();
 
         $response = $this->get('login');
 
@@ -45,7 +45,7 @@ class AnnouncementTest extends TestCase
     /** @test */
     public function announcement_is_visible_globally()
     {
-        $announcement = Announcement::factory()->enabled()->global()->noDates()->create();
+        $announcement = factory(Announcement::class)->states(['enabled', 'global', 'no-dates'])->create();
 
         $response = $this->get('login');
 
@@ -61,7 +61,7 @@ class AnnouncementTest extends TestCase
     /** @test */
     public function a_disabled_announcement_does_not_show()
     {
-        $announcement = Announcement::factory()->disabled()->global()->noDates()->create();
+        $announcement = factory(Announcement::class)->states(['disabled', 'global', 'no-dates'])->create();
 
         $response = $this->get('login');
 
@@ -71,7 +71,7 @@ class AnnouncementTest extends TestCase
     /** @test */
     public function an_announcement_inside_of_date_range_shows()
     {
-        $announcement = Announcement::factory()->enabled()->global()->insideDateRange()->create();
+        $announcement = factory(Announcement::class)->states(['enabled', 'global', 'inside-date-range'])->create();
 
         $response = $this->get('login');
 
@@ -81,7 +81,7 @@ class AnnouncementTest extends TestCase
     /** @test */
     public function an_announcement_outside_of_date_range_doesnt_show()
     {
-        $announcement = Announcement::factory()->enabled()->global()->outsideDateRange()->create();
+        $announcement = factory(Announcement::class)->states(['enabled', 'global', 'outside-date-range'])->create();
 
         $response = $this->get('login');
 

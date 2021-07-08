@@ -32,7 +32,7 @@ class ResetPasswordTest extends TestCase
     {
         Notification::fake();
 
-        $user = User::factory()->create(['email' => 'john@example.com']);
+        $user = factory(User::class)->create(['email' => 'john@example.com']);
 
         $this->post('password/email', ['email' => 'john@example.com']);
 
@@ -55,7 +55,7 @@ class ResetPasswordTest extends TestCase
     /** @test */
     public function a_password_can_be_reset()
     {
-        $user = User::factory()->create(['email' => 'john@example.com']);
+        $user = factory(User::class)->create(['email' => 'john@example.com']);
 
         $token = $this->app->make('auth.password.broker')->createToken($user);
 
@@ -72,7 +72,7 @@ class ResetPasswordTest extends TestCase
     /** @test */
     public function the_password_can_be_validated()
     {
-        $user = User::factory()->create(['email' => 'john@example.com']);
+        $user = factory(User::class)->create(['email' => 'john@example.com']);
 
         $token = $this->app->make('auth.password.broker')->createToken($user);
 
@@ -84,10 +84,7 @@ class ResetPasswordTest extends TestCase
                 'password_confirmation' => 'secret',
             ]);
 
-        $this->assertStringContainsString(__('validation.min.string', [
-            'attribute' => __('password'),
-            'min' => 8,
-        ]), $response->content());
+        $this->assertStringContainsString('The password must be at least 8 characters.', $response->content());
     }
 
     /** @test */
@@ -95,7 +92,7 @@ class ResetPasswordTest extends TestCase
     {
         config(['boilerplate.access.user.password_history' => false]);
 
-        $user = User::factory()->create(['email' => 'john@example.com', 'password' => ']EqZL4}zBT']);
+        $user = factory(User::class)->create(['email' => 'john@example.com', 'password' => ']EqZL4}zBT']);
 
         $token = $this->app->make('auth.password.broker')->createToken($user);
 
@@ -107,7 +104,7 @@ class ResetPasswordTest extends TestCase
                 'password_confirmation' => ']EqZL4}zBT',
             ]);
 
-        $this->assertStringContainsString(__('passwords.reset'), $response->content());
+        $this->assertStringContainsString('Your password has been reset!', $response->content());
         $this->assertTrue(Hash::check(']EqZL4}zBT', $user->fresh()->password));
     }
 
@@ -116,7 +113,7 @@ class ResetPasswordTest extends TestCase
     {
         config(['boilerplate.access.user.password_history' => 3]);
 
-        $user = User::factory()->create(['email' => 'john@example.com', 'password' => ']EqZL4}zBT']);
+        $user = factory(User::class)->create(['email' => 'john@example.com', 'password' => ']EqZL4}zBT']);
 
         // Change once
         $this->actingAs($user)

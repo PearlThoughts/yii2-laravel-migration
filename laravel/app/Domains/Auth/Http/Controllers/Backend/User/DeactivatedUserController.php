@@ -4,12 +4,13 @@ namespace App\Domains\Auth\Http\Controllers\Backend\User;
 
 use App\Domains\Auth\Models\User;
 use App\Domains\Auth\Services\UserService;
+use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 
 /**
  * Class UserStatusController.
  */
-class DeactivatedUserController
+class DeactivatedUserController extends Controller
 {
     /**
      * @var UserService
@@ -47,7 +48,7 @@ class DeactivatedUserController
         $this->userService->mark($user, (int) $status);
 
         return redirect()->route(
-            (int) $status === 1 || ! $request->user()->can('admin.access.user.reactivate') ?
+            (int) $status === 1 || ! $request->user()->can('access.user.reactivate') ?
                 'admin.auth.user.index' :
                 'admin.auth.user.deactivated'
         )->withFlashSuccess(__('The user was successfully updated.'));

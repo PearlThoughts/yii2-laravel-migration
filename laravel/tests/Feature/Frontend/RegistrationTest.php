@@ -23,13 +23,13 @@ class RegistrationTest extends TestCase
     {
         $response = $this->post('/register');
 
-        $response->assertSessionHasErrors(['name', 'email', 'password', 'terms']);
+        $response->assertSessionHasErrors(['name', 'email', 'password']);
     }
 
     /** @test */
     public function email_must_be_unique()
     {
-        User::factory()->create(['email' => 'john@example.com']);
+        factory(User::class)->create(['email' => 'john@example.com']);
 
         $response = $this->post('/register', [
             'name' => 'John Doe',
@@ -82,7 +82,6 @@ class RegistrationTest extends TestCase
             'email' => 'john@example.com',
             'password' => 'OC4Nzu270N!QBVi%U%qX',
             'password_confirmation' => 'OC4Nzu270N!QBVi%U%qX',
-            'terms' => '1',
         ])->assertRedirect(route(homeRoute()));
 
         $user = resolve(UserService::class)
@@ -91,18 +90,5 @@ class RegistrationTest extends TestCase
 
         $this->assertSame($user->name, 'John Doe');
         $this->assertTrue(Hash::check('OC4Nzu270N!QBVi%U%qX', $user->password));
-    }
-
-    /** @test */
-    public function a_user_cant_register_an_account_if_they_dont_accept_the_terms()
-    {
-        $response = $this->post('/register', [
-            'name' => 'John Doe',
-            'email' => 'john@example.com',
-            'password' => 'OC4Nzu270N!QBVi%U%qX',
-            'password_confirmation' => 'OC4Nzu270N!QBVi%U%qX',
-        ]);
-
-        $response->assertSessionHasErrors(['terms']);
     }
 }

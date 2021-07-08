@@ -15,7 +15,7 @@ class PasswordExpirationTest extends TestCase
     {
         config(['boilerplate.access.user.password_expires_days' => 30]);
 
-        $user = User::factory()->create();
+        $user = factory(User::class)->create();
 
         $this->actingAs($user);
 
@@ -25,35 +25,31 @@ class PasswordExpirationTest extends TestCase
     /** @test */
     public function a_user_with_an_expired_password_cannot_access_dashboard()
     {
-        $user = User::factory()->passwordExpired()->create();
+        $user = factory(User::class)->states('password_expired')->create();
 
         $this->actingAs($user);
 
         $response = $this->get('/dashboard')->assertRedirect('/password/expired');
 
-        $response->assertSessionHas('flash_warning', __('Your password has expired. We require you to change your password every :days days for security purposes.', [
-            'days' => config('boilerplate.access.user.password_expires_days'),
-        ]));
+        $response->assertSessionHas('flash_warning', __('Your password has expired. We require you to change your password every '.config('boilerplate.access.user.password_expires_days').' days for security purposes.'));
     }
 
     /** @test */
     public function a_user_with_an_expired_password_cannot_access_account()
     {
-        $user = User::factory()->passwordExpired()->create();
+        $user = factory(User::class)->states('password_expired')->create();
 
         $this->actingAs($user);
 
         $response = $this->get('/account')->assertRedirect('/password/expired');
 
-        $response->assertSessionHas('flash_warning', __('Your password has expired. We require you to change your password every :days days for security purposes.', [
-            'days' => config('boilerplate.access.user.password_expires_days'),
-        ]));
+        $response->assertSessionHas('flash_warning', __('Your password has expired. We require you to change your password every '.config('boilerplate.access.user.password_expires_days').' days for security purposes.'));
     }
 
     /** @test */
     public function password_expiration_update_requires_validation()
     {
-        $this->actingAs(User::factory()->create());
+        $this->actingAs(factory(User::class)->create());
 
         $response = $this->patch('/password/expired');
 
@@ -63,7 +59,7 @@ class PasswordExpirationTest extends TestCase
     /** @test */
     public function a_user_can_update_their_expired_password()
     {
-        $user = User::factory()->passwordExpired()->create();
+        $user = factory(User::class)->states('password_expired')->create();
 
         $this->actingAs($user);
 

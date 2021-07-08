@@ -1,5 +1,3 @@
-@inject('model', '\App\Domains\Auth\Models\User')
-
 @extends('backend.layouts.app')
 
 @section('title', __('Create Role'))
@@ -16,28 +14,15 @@
             </x-slot>
 
             <x-slot name="body">
-                <div x-data="{userType : '{{ $model::TYPE_USER }}'}">
-                    <div class="form-group row">
-                        <label for="name" class="col-md-2 col-form-label">@lang('Type')</label>
+                <div class="form-group row">
+                    <label for="name" class="col-md-2 col-form-label">@lang('Name')</label>
 
-                        <div class="col-md-10">
-                            <select name="type" class="form-control" required x-on:change="userType = $event.target.value">
-                                <option value="{{ $model::TYPE_USER }}">@lang('User')</option>
-                                <option value="{{ $model::TYPE_ADMIN }}">@lang('Administrator')</option>
-                            </select>
-                        </div>
-                    </div><!--form-group-->
-
-                    <div class="form-group row">
-                        <label for="name" class="col-md-2 col-form-label">@lang('Name')</label>
-
-                        <div class="col-md-10">
-                            <input type="text" name="name" class="form-control" placeholder="{{ __('Name') }}" value="{{ old('name') }}" maxlength="100" required />
-                        </div>
+                    <div class="col-md-10">
+                        <input type="text" name="name" class="form-control" placeholder="{{ __('Name') }}" value="{{ old('name') }}" required />
                     </div>
-
-                    @include('backend.auth.includes.permissions')
                 </div>
+
+                @include('backend.auth.includes.permissions')
             </x-slot>
 
             <x-slot name="footer">

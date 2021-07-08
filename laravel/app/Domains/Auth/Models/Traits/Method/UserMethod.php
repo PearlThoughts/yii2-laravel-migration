@@ -12,7 +12,7 @@ trait UserMethod
     /**
      * @return bool
      */
-    public function isMasterAdmin(): bool
+    public function isMasterAdmin()
     {
         return $this->id === 1;
     }
@@ -20,41 +20,15 @@ trait UserMethod
     /**
      * @return mixed
      */
-    public function isAdmin(): bool
+    public function isAdmin()
     {
-        return $this->type === self::TYPE_ADMIN;
+        return $this->hasRole(config('boilerplate.access.role.admin'));
     }
 
     /**
      * @return mixed
      */
-    public function isUser(): bool
-    {
-        return $this->type === self::TYPE_USER;
-    }
-
-    /**
-     * @return mixed
-     */
-    public function hasAllAccess(): bool
-    {
-        return $this->isAdmin() && $this->hasRole(config('boilerplate.access.role.admin'));
-    }
-
-    /**
-     * @param $type
-     *
-     * @return bool
-     */
-    public function isType($type): bool
-    {
-        return $this->type === $type;
-    }
-
-    /**
-     * @return mixed
-     */
-    public function canChangeEmail(): bool
+    public function canChangeEmail()
     {
         return config('boilerplate.access.user.change_email');
     }
@@ -62,7 +36,7 @@ trait UserMethod
     /**
      * @return bool
      */
-    public function isActive(): bool
+    public function isActive()
     {
         return $this->active;
     }
@@ -70,15 +44,15 @@ trait UserMethod
     /**
      * @return bool
      */
-    public function isVerified(): bool
+    public function isVerified()
     {
-        return $this->email_verified_at !== null;
+        return $this->email_verified_at;
     }
 
     /**
      * @return bool
      */
-    public function isSocial(): bool
+    public function isSocial()
     {
         return $this->provider && $this->provider_id;
     }
@@ -99,6 +73,6 @@ trait UserMethod
      */
     public function getAvatar($size = null)
     {
-        return 'https://gravatar.com/avatar/'.md5(strtolower(trim($this->email))).'?s='.config('boilerplate.avatar.size', $size).'&d=mp';
+        return 'https://gravatar.com/avatar/'.md5(strtolower(trim($this->email))).'?s='.config('boilerplate.avatar.size', $size);
     }
 }

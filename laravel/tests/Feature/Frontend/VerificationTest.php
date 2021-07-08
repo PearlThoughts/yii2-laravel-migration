@@ -15,7 +15,7 @@ class VerificationTest extends TestCase
     /** @test */
     public function an_unverified_user_cannot_access_dashboard()
     {
-        $user = User::factory()->unconfirmed()->create();
+        $user = factory(User::class)->states('unconfirmed')->create();
 
         $this->actingAs($user);
 
@@ -25,7 +25,7 @@ class VerificationTest extends TestCase
     /** @test */
     public function an_unverified_user_cannot_access_account()
     {
-        $user = User::factory()->unconfirmed()->create();
+        $user = factory(User::class)->states('unconfirmed')->create();
 
         $this->actingAs($user);
 
@@ -37,7 +37,7 @@ class VerificationTest extends TestCase
     {
         Notification::fake();
 
-        $user = User::factory()->unconfirmed()->create();
+        $user = factory(User::class)->states('unconfirmed')->create();
 
         $this->actingAs($user);
 

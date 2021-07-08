@@ -12,7 +12,7 @@
             @lang('User Management')
         </x-slot>
 
-        @if ($logged_in_user->hasAllAccess())
+        @if ($logged_in_user->isAdmin())
             <x-slot name="headerActions">
                 <x-utils.link
                     icon="c-icon cil-plus"
@@ -24,7 +24,7 @@
         @endif
 
         <x-slot name="body">
-            <livewire:backend.users-table />
+            <livewire:users-table />
         </x-slot>
     </x-backend.card>
 @endsection

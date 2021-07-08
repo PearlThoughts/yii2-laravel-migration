@@ -10,7 +10,7 @@
 
         @stack('before-styles')
         <link rel="dns-prefetch" href="//fonts.gstatic.com">
-        <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700&display=swap" rel="stylesheet">
+        <link href="https://fonts.googleapis.com/css?family=Nunito:200,600" rel="stylesheet">
         <link href="{{ mix('css/frontend.css') }}" rel="stylesheet">
         <style>
             html, body {
@@ -65,6 +65,8 @@
             }
         </style>
         @stack('after-styles')
+
+        @include('includes.partials.ga')
     </head>
     <body>
         @include('includes.partials.read-only')
@@ -74,11 +76,7 @@
         <div id="app" class="flex-center position-ref full-height">
             <div class="top-right links">
                 @auth
-                    @if ($logged_in_user->isUser())
-                        <a href="{{ route('frontend.user.dashboard') }}">@lang('Dashboard')</a>
-                    @endif
-
-                    <a href="{{ route('frontend.user.account') }}">@lang('Account')</a>
+                    <a href="{{ route('frontend.user.dashboard') }}">@lang('Dashboard')</a>
                 @else
                     <a href="{{ route('frontend.auth.login') }}">@lang('Login')</a>
 

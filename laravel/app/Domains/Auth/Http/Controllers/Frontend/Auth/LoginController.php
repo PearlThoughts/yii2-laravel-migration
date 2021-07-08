@@ -2,17 +2,17 @@
 
 namespace App\Domains\Auth\Http\Controllers\Frontend\Auth;
 
-use App\Domains\Auth\Events\User\UserLoggedIn;
-use App\Rules\Captcha;
+use App\Domains\Auth\Events\UserLoggedIn;
+use App\Http\Controllers\Controller;
+use App\Providers\RouteServiceProvider;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use Illuminate\Http\Exceptions\HttpResponseException;
 use Illuminate\Http\Request;
-use LangleyFoxall\LaravelNISTPasswordRules\PasswordRules;
 
 /**
  * Class LoginController.
  */
-class LoginController
+class LoginController extends Controller
 {
     /*
     |--------------------------------------------------------------------------
@@ -26,6 +26,13 @@ class LoginController
     */
 
     use AuthenticatesUsers;
+
+    /**
+     * Where to redirect users after login.
+     *
+     * @var string
+     */
+    protected $redirectTo = RouteServiceProvider::HOME;
 
     /**
      * Where to redirect users after login.
@@ -45,25 +52,6 @@ class LoginController
     public function showLoginForm()
     {
         return view('frontend.auth.login');
-    }
-
-    /**
-     * Validate the user login request.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return void
-     *
-     * @throws \Illuminate\Validation\ValidationException
-     */
-    protected function validateLogin(Request $request)
-    {
-        $request->validate([
-            $this->username() => ['required', 'max:255', 'string'],
-            'password' => array_merge(['max:100'], PasswordRules::login()),
-            'g-recaptcha-response' => ['required_if:captcha_status,true', new Captcha],
-        ], [
-            'g-recaptcha-response.required_if' => __('validation.required', ['attribute' => 'captcha']),
-        ]);
     }
 
     /**
@@ -95,7 +83,7 @@ class LoginController
      * @param  Request  $request
      * @param $user
      *
-     * @return mixed
+     * @return \Illuminate\Http\RedirectResponse
      */
     protected function authenticated(Request $request, $user)
     {
@@ -110,5 +98,7 @@ class LoginController
         if (config('boilerplate.access.user.single_login')) {
             auth()->logoutOtherDevices($request->password);
         }
+
+        return redirect()->intended($this->redirectPath());
     }
 }

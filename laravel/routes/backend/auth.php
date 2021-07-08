@@ -43,8 +43,8 @@ Route::group([
                 Route::get('edit', [UserController::class, 'edit'])
                     ->name('edit')
                     ->breadcrumbs(function (Trail $trail, User $user) {
-                        $trail->parent('admin.auth.user.show', $user)
-                            ->push(__('Edit'), route('admin.auth.user.edit', $user));
+                        $trail->parent('admin.auth.user.index')
+                            ->push(__('Editing :user', ['user' => $user->name]), route('admin.auth.user.edit', $user));
                     });
 
                 Route::patch('/', [UserController::class, 'update'])->name('update');
@@ -58,11 +58,11 @@ Route::group([
         });
 
         Route::group([
-            'middleware' => 'permission:admin.access.user.list|admin.access.user.deactivate|admin.access.user.reactivate|admin.access.user.clear-session|admin.access.user.impersonate|admin.access.user.change-password',
+            'middleware' => 'permission:access.user.list|access.user.deactivate|access.user.reactivate|access.user.clear-session|access.user.impersonate|access.user.change-password',
         ], function () {
             Route::get('deactivated', [DeactivatedUserController::class, 'index'])
                 ->name('deactivated')
-                ->middleware('permission:admin.access.user.reactivate')
+                ->middleware('permission:access.user.reactivate')
                 ->breadcrumbs(function (Trail $trail) {
                     $trail->parent('admin.auth.user.index')
                         ->push(__('Deactivated Users'), route('admin.auth.user.deactivated'));
@@ -70,7 +70,7 @@ Route::group([
 
             Route::get('/', [UserController::class, 'index'])
                 ->name('index')
-                ->middleware('permission:admin.access.user.list|admin.access.user.deactivate|admin.access.user.clear-session|admin.access.user.impersonate|admin.access.user.change-password')
+                ->middleware('permission:access.user.list|access.user.deactivate|access.user.clear-session|access.user.impersonate|access.user.change-password')
                 ->breadcrumbs(function (Trail $trail) {
                     $trail->parent('admin.dashboard')
                         ->push(__('User Management'), route('admin.auth.user.index'));
@@ -79,32 +79,32 @@ Route::group([
             Route::group(['prefix' => '{user}'], function () {
                 Route::get('/', [UserController::class, 'show'])
                     ->name('show')
-                    ->middleware('permission:admin.access.user.list')
+                    ->middleware('permission:access.user.list')
                     ->breadcrumbs(function (Trail $trail, User $user) {
                         $trail->parent('admin.auth.user.index')
-                            ->push($user->name, route('admin.auth.user.show', $user));
+                            ->push(__('Viewing :user', ['user' => $user->name]), route('admin.auth.user.show', $user));
                     });
 
                 Route::patch('mark/{status}', [DeactivatedUserController::class, 'update'])
                     ->name('mark')
                     ->where(['status' => '[0,1]'])
-                    ->middleware('permission:admin.access.user.deactivate|admin.access.user.reactivate');
+                    ->middleware('permission:access.user.deactivate|access.user.reactivate');
 
                 Route::post('clear-session', [UserSessionController::class, 'update'])
                     ->name('clear-session')
-                    ->middleware('permission:admin.access.user.clear-session');
+                    ->middleware('permission:access.user.clear-session');
 
                 Route::get('password/change', [UserPasswordController::class, 'edit'])
                     ->name('change-password')
-                    ->middleware('permission:admin.access.user.change-password')
+                    ->middleware('permission:access.user.change-password')
                     ->breadcrumbs(function (Trail $trail, User $user) {
-                        $trail->parent('admin.auth.user.show', $user)
-                            ->push(__('Change Password'), route('admin.auth.user.change-password', $user));
+                        $trail->parent('admin.auth.user.index')
+                            ->push(__('Changing Password for :user', ['user' => $user->name]), route('admin.auth.user.change-password', $user));
                     });
 
                 Route::patch('password/change', [UserPasswordController::class, 'update'])
                     ->name('change-password.update')
-                    ->middleware('permission:admin.access.user.change-password');
+                    ->middleware('permission:access.user.change-password');
             });
         });
     });

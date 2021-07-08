@@ -4,11 +4,12 @@ namespace App\Domains\Auth\Http\Controllers\Frontend\Auth;
 
 use App\Domains\Auth\Http\Requests\Frontend\Auth\UpdatePasswordRequest;
 use App\Domains\Auth\Services\UserService;
+use App\Http\Controllers\Controller;
 
 /**
  * Class PasswordExpiredController.
  */
-class PasswordExpiredController
+class PasswordExpiredController extends Controller
 {
     /**
      * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\View\View
