@@ -39,6 +39,8 @@ class User extends Authenticatable implements MustVerifyEmail, Recordable, TwoFa
         UserRelationship,
         UserScope;
 
+    public $timestamps = false;
+
     /**
      * The attributes that are mass assignable.
      *
